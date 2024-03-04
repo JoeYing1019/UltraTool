@@ -1,0 +1,7 @@
+jiwer==3.0.3
+numpy==1.24.2
+openai==0.28.1
+scikit_learn==1.2.2
+textdistance==4.6.1
+tiktoken==0.5.1
+tqdm==4.65.0

@@ -1,0 +1,115 @@
+{
+    "question": "请帮我查找当前美元对日元的汇率，并计算出我用5000美元兑换成日元可以得到多少，但现阶段不需要实际进行兑换操作。",
+    "input": [
+        {
+            "step": "1. 查找当前美元对日元的汇率"
+        },
+        {
+            "step": "1.1 获取货币对信息（货币对：美元/日元）"
+        },
+        {
+            "step": "1.2 查询当前汇率",
+            "tool": "currency_exchange_rate",
+            "param": ""
+        },
+        {
+            "step": "1.3 获取当前汇率（汇率：当前汇率）"
+        },
+        {
+            "step": "2. 计算兑换金额"
+        },
+        {
+            "step": "2.1 获取兑换金额信息（金额：5000美元）"
+        },
+        {
+            "step": "2.2 应用当前汇率进行计算",
+            "tool": "calculate_exchange_amount",
+            "param": ""
+        },
+        {
+            "step": "2.3 输出计算结果（得到的日元数量：计算得到的日元数量）"
+        }
+    ],
+    "toolset": [
+        {
+            "name": "calculate_exchange_amount",
+            "description": "根据汇率计算货币兑换金额",
+            "arguments": {
+                "type": "object",
+                "properties": {
+                    "target_amount": {
+                        "type": "integer",
+                        "description": "目标货币的金额数量"
+                    },
+                    "exchange_rate": {
+                        "type": "number",
+                        "description": "货币之间的汇率"
+                    },
+                    "currency_from": {
+                        "type": "string",
+                        "description": "源货币类型"
+                    },
+                    "currency_to": {
+                        "type": "string",
+                        "description": "目标货币类型"
+                    }
+                }
+            },
+            "results": {
+                "type": "object",
+                "properties": {
+                    "conversion_amount": {
+                        "type": "number",
+                        "description": "兑换后的货币数额"
+                    }
+                }
+            }
+        },
+        {
+            "name": "currency_exchange_rate",
+            "description": "查询货币对的当前汇率",
+            "arguments": {
+                "type": "object",
+                "properties": {
+                    "currency_from": {
+                        "description": "源货币类型",
+                        "type": "string"
+                    },
+                    "currency_to": {
+                        "description": "目标货币类型",
+                        "type": "string"
+                    }
+                }
+            },
+            "results": {
+                "type": "object",
+                "properties": {
+                    "exchange_rate": {
+                        "description": "当前市场汇率",
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    ],
+    "reference": [
+        {
+            "step": "1.2 查询当前汇率",
+            "tool": "currency_exchange_rate",
+            "param": {
+                "currency_from": "美元",
+                "currency_to": "日元"
+            }
+        },
+        {
+            "step": "2.2 应用当前汇率进行计算",
+            "tool": "calculate_exchange_amount",
+            "param": {
+                "target_amount": "5000",
+                "exchange_rate": "<当前汇率>",
+                "currency_from": "美元",
+                "currency_to": "日元"
+            }
+        }
+    ]
+}

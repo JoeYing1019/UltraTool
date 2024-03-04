@@ -1,0 +1,96 @@
+{
+    "input": [
+        {
+            "step": "1. Find the current exchange rate of US dollar to Japanese yen"
+        },
+        {
+            "step": "1.1 Obtain currency pair information (Currency pair: USD/JPY)"
+        },
+        {
+            "step": "1.2 Check the current exchange rate"
+        },
+        {
+            "step": "1.3 Obtain the current exchange rate (Exchange rate: current exchange rate)"
+        },
+        {
+            "step": "2. Calculate the exchange amount"
+        },
+        {
+            "step": "2.1 Obtain exchange amount information (Amount: 5000 US dollars)"
+        },
+        {
+            "step": "2.2 Apply the current exchange rate to calculate",
+            "tool": ""
+        },
+        {
+            "step": "2.3 Output the calculation result (Amount of yen obtained: calculated amount of yen)"
+        }
+    ],
+    "toolset": [
+        {
+            "name": "confirm_medication_stock",
+            "description": "Confirm the medication stock at a specified pharmacy",
+            "arguments": {
+                "type": "object",
+                "properties": {
+                    "pharmacy": {
+                        "type": "string",
+                        "description": "Name of the pharmacy"
+                    },
+                    "medication": {
+                        "type": "string",
+                        "description": "Name of the medication"
+                    }
+                }
+            },
+            "results": {
+                "type": "object",
+                "properties": {
+                    "stock_status": {
+                        "type": "boolean",
+                        "description": "Whether the medication stock is sufficient"
+                    }
+                }
+            }
+        }
+    ],
+    "reference": [
+        {
+            "step": "2.2 Apply the current exchange rate to calculate",
+            "tool": {
+                "name": "calculate_exchange_amount",
+                "description": "Calculate the currency exchange amount based on the exchange rate",
+                "arguments": {
+                    "type": "object",
+                    "properties": {
+                        "target_amount": {
+                            "type": "integer",
+                            "description": "Amount of the target currency"
+                        },
+                        "exchange_rate": {
+                            "type": "number",
+                            "description": "Exchange rate between currencies"
+                        },
+                        "currency_from": {
+                            "type": "string",
+                            "description": "Type of source currency"
+                        },
+                        "currency_to": {
+                            "type": "string",
+                            "description": "Type of target currency"
+                        }
+                    }
+                },
+                "results": {
+                    "type": "object",
+                    "properties": {
+                        "conversion_amount": {
+                            "type": "number",
+                            "description": "Amount of currency after exchange"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

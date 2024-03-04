@@ -1,0 +1,4 @@
+{
+    "input": "Please help me find the current exchange rate of US dollars to Japanese yen, and calculate how much yen I would get for exchanging 5000 US dollars, but there is no need to actually perform the exchange transaction at this stage.",
+    "reference": "1. Find the current exchange rate of US dollars to Japanese yen\n1.1 Obtain currency pair information (Currency pair: USD/JPY)\n1.2 Query the current exchange rate\n1.3 Obtain the current exchange rate (Exchange rate: Current exchange rate)\n2. Calculate the exchange amount\n2.1 Obtain exchange amount information (Amount: 5000 US dollars)\n2.2 Apply the current exchange rate for calculation\n2.3 Output the calculation result (Amount of yen obtained: Calculated amount of yen)"
+}
