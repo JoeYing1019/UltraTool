@@ -95,7 +95,65 @@ python inference/inference_openai.py --model gpt-4 --language en --tasks ['plann
 
 The inference results will be saved in `predictions` and we have provided the inference results of GPT-3.5 and GPT-4 in `predictions`.
 
-Additionally, the inference code and results for other open-source LLMs will be made available in the future.
+Additionally, the inference code and results for other open-source LLMs will be made available below.
+We choose ChatGLM as an example to explain the whole process.
+### Evaluation Setup for ChatGLM with UltraTool
+
+
+
+To evaluate the ChatGLM model using the UltraTool benchmarks, follow these steps:
+
+#### 1. Modify `inference_ultratool.py` File
+
+- **Location**: `evaluation/inference_ultratool.py`
+- **Modification**: Change the model path to the location of your local ChatGLM model.
+
+For example, if using ChatGLM, at line 162, update the `model_path` as follows:
+
+```python
+if args.model_type == 'chatglm':
+    args.model_path = '<path_to_your_local_chatglm_model>'
+```
+
+Replace `<path_to_your_local_chatglm_model>` with the actual path to your ChatGLM model directory.
+
+#### 2. Update the `run.sh` Script
+
+- **Location**: `scripts/run.sh`
+- **Modification**: Change the model type to `chatglm`.
+
+At line 11 in `run.sh`, modify the `model_types` array:
+
+```bash
+model_types=(chatglm)
+```
+
+#### 3. Execute the Evaluation
+
+Run the `run.sh` script:
+
+```bash
+bash scripts/run.sh
+```
+
+#### 4. Accessing the Results
+
+After running the script, you can find the inference results of ChatGLM for both Chinese and English tasks in the UltraTool benchmarks. The results are located under:
+
+```
+generate_result/few_shot_cot/chinese/${task_name}/chatglm
+generate_result/few_shot_cot/english/${task_name}/chatglm
+```
+
+The tasks include:
+
+- Plan
+- Tool Use Awareness
+- Tool Selection Harder
+- Tool Creation Awareness Harder
+- Tool Creation
+- Arguments Filling
+
 
 ### Evaluation
 
