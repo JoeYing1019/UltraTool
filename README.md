@@ -10,6 +10,7 @@ The recent trend of using Large Language Models (LLMs) as tool agents in real-wo
 
 ## 🚀What's New
 
+- **[2024.03.12]** Release inference code for open-source LLMs.
 - **[2024.03.04]** Release evaluation code, inference code for GPT-3.5 and GPT-4, and prediction results of GPT-3.5 and GPT-4.
 - **[2024.01.31]** Release data of UltraTool, the code for evaluation is on its way.
 - **[2023.01.31]** Paper available on [ArXiv](https://arxiv.org/abs/2401.17167). 
