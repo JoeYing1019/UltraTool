@@ -5,13 +5,11 @@ sample_num=1
 is_englishs=(True False)
 tensor_parallel=2
 
-method=few_shot_cot
-
 # Array of models
 model_types=(vicuna-13b)
 
 # Array of datasets
-datasets=(plan tool_use_awareness tool_selection_harder tool_creation_awareness_harder tool_creation arguments_filling)
+datasets=(planning tool_usage_awareness tool_selection tool_creation_awareness tool_creation tool_usage)
 
 for is_english in "${is_englishs[@]}"; do
     for model_type in "${model_types[@]}"; do
@@ -19,11 +17,11 @@ for is_english in "${is_englishs[@]}"; do
         # Loop over each dataset in the array
         for dataset in "${datasets[@]}"; do
             if [ "$is_english" == "True" ]; then
-                output_dir="generate_result/${method}/english/${dataset}/${save_name}"
-                log_dir="log/${method}/english/${dataset}/${save_name}"
+                output_dir="predictions/English-dataset/${dataset}/${save_name}"
+                log_dir="log/English-dataset/${dataset}/${save_name}"
             else
-                output_dir="generate_result/${method}/chinese/${dataset}/${save_name}"
-                log_dir="log/${method}/chinese/${dataset}/${save_name}"
+                output_dir="predictions/Chinese-dataset/${dataset}/${save_name}"
+                log_dir="log/Chinese-dataset/${dataset}/${save_name}"
             fi
 
             mkdir -p "${output_dir}"
@@ -65,6 +63,23 @@ for is_english in "${is_englishs[@]}"; do
                 done
 
                 sleep 180 # Additional sleep for 6 minutes after all GPUs are free
+
+            save_log=${output_dir}/${dataset}.json
+            # Check if the log file already exists
+            if [ -f "$save_log" ]; then
+                # Delete the existing log file
+                rm "$save_log"
+            fi
+
+            # Create a new, empty log file
+            touch "$save_log"
+            # Loop through the files and concatenate
+            for i in {0..7}
+            do
+                # Append the content of the current file
+                cat "${output_dir}/${i}.json" >> ${save_log}
+            done
+
         done
     done
 done

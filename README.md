@@ -77,6 +77,8 @@ $ pip install requirements.txt
 
 ### Inference 
 
+#### Closed-source LLMs
+
 We offer the inference code for both GPT-3.5 and GPT-4.
 
 ```
@@ -95,40 +97,26 @@ python inference/inference_openai.py --model gpt-4 --language en --tasks ['plann
 
 The inference results will be saved in `predictions` and we have provided the inference results of GPT-3.5 and GPT-4 in `predictions`.
 
-Additionally, the inference code and results for other open-source LLMs will be made available below.
-We choose ChatGLM as an example to explain the whole process.
-### Evaluation Setup for ChatGLM with UltraTool
+#### Open-source LLMs
 
+We choose **ChatGLM3** as an example to explain the whole process. To evaluate the ChatGLM3 model using the UltraTool benchmarks, follow these steps:
 
+##### 1. Download model and set the model path
 
-To evaluate the ChatGLM model using the UltraTool benchmarks, follow these steps:
+For instance, when employing ChatGLM3, acquire the model from [Hugging Face](https://huggingface.co/THUDM/chatglm3-6b). Subsequently, navigate to the `inference/inference_ultraltool.py` script and assign the appropriate value to `args.model_path` by specifying `<path_to_your_local_chatglm_model>`. Ensure to replace `<path_to_your_local_chatglm_model>` with the precise directory path leading to your ChatGLM3 model.
 
-#### 1. Modify `inference_ultratool.py` File
-
-- **Location**: `evaluation/inference_ultratool.py`
-- **Modification**: Change the model path to the location of your local ChatGLM model.
-
-For example, if using ChatGLM, at line 162, update the `model_path` as follows:
-
-```python
-if args.model_type == 'chatglm':
-    args.model_path = '<path_to_your_local_chatglm_model>'
-```
-
-Replace `<path_to_your_local_chatglm_model>` with the actual path to your ChatGLM model directory.
-
-#### 2. Update the `run.sh` Script
+##### 2. Update the `run.sh` Script
 
 - **Location**: `scripts/run.sh`
 - **Modification**: Change the model type to `chatglm`.
 
-At line 11 in `run.sh`, modify the `model_types` array:
+At line 9 in `run.sh`, modify the `model_types` array:
 
 ```bash
 model_types=(chatglm)
 ```
 
-#### 3. Execute the Evaluation
+##### 3. Execute the Evaluation
 
 Run the `run.sh` script:
 
@@ -136,23 +124,14 @@ Run the `run.sh` script:
 bash scripts/run.sh
 ```
 
-#### 4. Accessing the Results
+##### 4. Accessing the Results
 
-After running the script, you can find the inference results of ChatGLM for both Chinese and English tasks in the UltraTool benchmarks. The results are located under:
+After running the script, you can find the inference results of ChatGLM3 for both Chinese-dataset and English-dataset on all tasks in the UltraTool benchmarks. The results are located under:
 
 ```
-generate_result/few_shot_cot/chinese/${task_name}/chatglm
-generate_result/few_shot_cot/english/${task_name}/chatglm
+predictions/Chinese-dataset/chatglm
+predictions/English-dataset/chatglm
 ```
-
-The tasks include:
-
-- Plan
-- Tool Use Awareness
-- Tool Selection Harder
-- Tool Creation Awareness Harder
-- Tool Creation
-- Arguments Filling
 
 
 ### Evaluation
