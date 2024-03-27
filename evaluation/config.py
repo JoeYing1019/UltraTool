@@ -38,38 +38,40 @@ ch_prompt_plan = '''
 '''
 
 en_prompt_plan = '''
-As a professional assessment expert, your task is to objectively assess the quality of the provided data in reference to the standard answer, based on the given assessment dimensions. Given a user instruction, the standard answer, and a tool created in response to the user instruction, please score the quality of the created tool according to the following assessment dimensions:
+As a professional assessment expert, your task is to objectively evaluate the quality of the provided data based on the given assessment dimensions, with reference to the standard answer. Given user instructions, a standard answer, and a task planning corresponding to the user instructions, please score the quality of the task planning according to the following assessment dimensions:
 
-1. Format Compliance: The created tool should be completely consistent with the standard answer in terms of format, fully including the basic components such as the tool name ("name" field), tool description ("description" field), list of arguments ("arguments" field, with "type" and "properties" fields within "arguments") and return values ("results" field, with "type" and "properties" fields within "results").
-2. Accuracy: The created tool should align with the objectives of the user instruction and accurately address the user's needs.
-3. Content Reasonableness: The content within each field of the created tool should be reasonable, including clear expression and solid grammar in the natural language description fields, as well as sensible types for each defined argument and return value.
-4. Executability: The tool name and description defined in the created tool should appropriately express its function, with a comprehensive list of parameters and complete return values.
-5. Richness: The created tool should include rich information, depth, contextual considerations, and diversity.
+1. Accuracy: The task planning should align with the objectives of the user instructions. The understanding of the user instructions and the use of information provided within them must be accurate, without adding unreasonable tasks or constraints that are not requested by the user.
+2. Completeness: All tasks and constraints involved in the user instructions must be reflected in the steps of task planning without omissions.
+3. Executability: The overall logic of the task planning should be coherent. All steps in the task planning should be reasonable and executable, with a logical sequence that allows for gradual completion to address the user's instructions. There should be no missing steps that would prevent subsequent steps from being executed, nor any superfluous steps that could cause errors in execution.
+4. Syntactic Soundness: The content of the task planning should be grammatically sound, with smooth and fluent sentences, a good language style, and free of grammatical errors.
+5. Structural Rationality: The structure of the task planning should be an ordered tree-like hierarchy, with reasonable relationships between parent and child operations, and an overall efficient and rational organization.
+6. Efficiency: The task planning should be concise and efficient, with clear and specific steps, without excessively subdividing steps or having lengthy and complicated procedures.
 
-Overall, the higher the quality of the model answer, the higher the score. As an example, the standard answer can score 8 points in each dimension and in total.
-Compare the standard answer and step by step score each of the above assessment dimensions, then provide an overall score based on all dimensions. The specific criteria for the overall score are as follows:
-The total score must be 1 point if the model answer is irrelevant to the question, contains essential factual errors, or generates harmful content.
-The total score should be 2 to 3 points if the model answer is of low quality without serious errors and is harmless but does not meet user needs.
-The total score can be 4 to 6 points if the model answer generally meets user requirements but performs poorly in some dimensions and is of mediocre quality.
-The total score should be 7 to 8 points if the model answer's quality is close to the standard answer and performs well in all dimensions.
-A score of 9 to 10 points is only achievable if the model answer significantly surpasses the standard answer, fully resolves the user's issue and all requirements, and approaches a perfect score in all dimensions.
+Overall, the higher the quality of the model's response, the higher the score. As an example, the standard answer could receive a score of 8 in each dimension and in total.
+Contrasting with the standard answer, assign a score to each of the above assessment dimensions individually, and then give an overall score based on all the assessment dimensions. The specific criteria for the overall score are as follows:
+The overall score must be 1 if the model's response is irrelevant to the question, contains fundamental factual errors, or generates harmful content.
+If the model's response has no serious errors and is generally harmless but of low quality and does not meet the user's needs, the overall score should be between 2 and 3.
+If the model's response basically meets the user's requirements but performs poorly on some dimensions, with medium quality, the overall score should be between 4 and 6.
+If the model's response is close to the quality of the standard answer and performs well in all dimensions, the overall score should be between 7 and 8.
+Only if the model's response significantly surpasses the standard answer, thoroughly addresses the user's questions and all needs, and is near perfect in all dimensions, can it receive a score between 9 and 10.
 
 You must provide your assessment results in the following format:
 [
-{{"Scoring Reason": <Provide reasons for scoring against the definition of format compliance and the standard answer>, "Format Compliance Score": <Assign a score between 1 to 10>}},
-{{"Scoring Reason": <Provide reasons for scoring against the definition of accuracy and the standard answer>, "Accuracy Score": <Assign a score between 1 to 10>}},
-{{"Scoring Reason": <Provide reasons for scoring against the definition of content reasonableness and the standard answer>, "Content Reasonableness Score": <Assign a score between 1 to 10>}},
-{{"Scoring Reason": <Provide reasons for scoring against the definition of executability and the standard answer>, "Executability Score": <Assign a score between 1 to 10>}},
-{{"Scoring Reason": <Provide reasons for scoring against the definition of richness and the standard answer>, "Richness Score": <Assign a score between 1 to 10>}},
-{{"Scoring Reason": <Provide reasons for scoring against all assessment dimensions and the standard answer>, "Total Score": <Assign a score between 1 to 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to the accuracy definition and standard answer>, "Accuracy Score": <Assign a score between 1 and 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to the completeness definition and standard answer>, "Completeness Score": <Assign a score between 1 and 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to the executability definition and standard answer>, "Executability Score": <Assign a score between 1 and 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to the syntactic soundness definition and standard answer>, "Syntactic Soundness Score": <Assign a score between 1 and 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to the structural rationality definition and standard answer>, "Structural Rationality Score": <Assign a score between 1 and 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to the efficiency definition and standard answer>, "Efficiency Score": <Assign a score between 1 and 10>}},
+{{"Reasoning": <Provide reasoning for the score with reference to all assessment dimension definitions and standard answer>, "Overall Score": <Assign a score between 1 and 10>}},
 ]
 
-Below are the given user instruction, standard answer, and the created tool to be evaluated:
-User instruction: {question}
-Standard answer: {reference}
-Created tool: {answer}
+Here are the given user instructions, standard answer, and the task planning to be assessed:
+User Instructions: {question}
+Standard Answer: {reference}
+Task Planning to be Assessed: {answer}
 
-Based on the above assessment dimensions and comparing against the standard answer, score each dimension for the created tool to be evaluated, then provide an overall score. The final output should be in the form of a JSON string, without any additional content.
+Based on the above assessment dimensions and contrasting with the standard answer, score each assessment dimension for the task planning to be assessed, and then give an overall score. The final output should be in the form of a JSON string, without including any other content.
 Output:
 '''
 
